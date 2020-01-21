@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,6 +21,22 @@ class Role
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * @ORM/OneToMany(targetEntity="App\Entity\User", mappedBy="role")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
 
     public function getId(): ?int
     {

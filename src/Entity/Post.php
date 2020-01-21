@@ -26,6 +26,24 @@ class Post
      */
     private $body;
 
+    /**
+     * @ORM/ManyToOne(targetEntity="App\Entity\Category", inversedBy="posts")
+     */
+
+    private $category;
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

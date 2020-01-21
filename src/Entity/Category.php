@@ -21,6 +21,21 @@ class Category
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
+     */
+    private $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    public function getProducts(): Collection
+    {
+        return $this->posts;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
