@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -31,19 +33,21 @@ class User
      */
     private $password;
 
-
     /**
-     * @ORM/ManyToOne(targetEntity="App\Entity\Blog", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Blog", inversedBy="users")
      */
     private $blog;
 
     /**
-     * @ORM/ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
      */
-    private $role;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $posts;
 
-
+    private $roles;
 
     public function getBlog(): ?Blog
     {
@@ -57,15 +61,14 @@ class User
     }
 
 
-    public function getRole(): ?Role
+    public function __construct()
     {
-        return $this->role;
+        $this->posts = new ArrayCollection();
     }
 
-    public function setRole(?Role $role): self
+    public function getPosts(): Collection
     {
-        $this->blog = $role;
-        return $this;
+        return $this->posts;
     }
 
 
@@ -100,7 +103,7 @@ class User
 
     public function getPassword(): ?string
     {
-        return $this->password;
+        return null;
     }
 
     public function setPassword(string $password): self
@@ -108,5 +111,43 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

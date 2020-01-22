@@ -24,7 +24,7 @@ class Blog
     private $name;
 
     /**
-     * @ORM/OneToMany(targetEntity="App\Entity\User", mappedBy="blog")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="blog")
      */
     private $users;
 
