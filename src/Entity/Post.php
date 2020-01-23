@@ -22,6 +22,11 @@ class Post
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $body;
@@ -89,6 +94,17 @@ class Post
     {
         $this->body = $body;
 
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
         return $this;
     }
 }
