@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -31,7 +32,7 @@ class Category
         $this->posts = new ArrayCollection();
     }
 
-    public function getProducts(): Collection
+    public function getProducts()
     {
         return $this->posts;
     }
