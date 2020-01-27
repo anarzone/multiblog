@@ -31,12 +31,6 @@ class PostType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('create', SubmitType::class,[
-                'label' => 'Create',
-                'attr' => [
-                    'class' => 'btn btn-success mt-3'
-                ]
-            ])
         ;
     }
 

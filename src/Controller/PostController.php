@@ -18,7 +18,6 @@ class PostController extends AbstractController
     public function index()
     {
         $posts = $this->getDoctrine()->getRepository(Post::class)->findAll();
-        dd($posts);
         return $this->render('post/index.html.twig', [
             'controller_name' => 'PostController',
             'posts' => $posts
@@ -54,28 +53,21 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/posts/{$post}/edit", name="posts_create")
+     * @Route("/posts/{id}/edit", name="posts_edit")
      */
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
-        $post = new Post();
-
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $category = new Category();
-            $category->setName('space');
 
-            $post->setCategory($category);
-
-            $entityManager->persist($category);
             $entityManager->persist($post);
 
-
             $entityManager->flush();
+            return $this->redirectToRoute('posts_index');
         }
 
-        return $this->render('post/create.html.twig', [
+        return $this->render('post/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    {{ form_row(form.title, {
+        label: 'Post title'
+    }) }}
+
+    {{ form_row(form.body) }}
+    {{ form_row(form.slug) }}
+
+    <button type="submit" class="btn btn-primary mt-3">{{ button_text }}</button>
+{{ form_end(form) }}
