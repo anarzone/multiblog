@@ -21,10 +21,12 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
     {
+
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -33,15 +35,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $blog_name = $request->request->get('blog');
-            dd($blog_name);
             $entityManager = $this->getDoctrine()->getManager();
-
+            $blog_name = $request->request->get('blog');
             $blog = new Blog();
             $slugify = new Slugify();
-
-
-
+            $blog->setName($blog_name['name']);
+            $blog->setSlug($slugify->slugify($blog_name['name']));
+            $entityManager->persist($blog);
             $entityManager->persist($user);
             $entityManager->flush();
 

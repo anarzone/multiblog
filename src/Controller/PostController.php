@@ -33,6 +33,8 @@ class PostController extends AbstractController
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
+
+        dd($form->getErrors());
         if($form->isSubmitted() && $form->isValid()){
             $category = new Category();
             $category->setName('space');

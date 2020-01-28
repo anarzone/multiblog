@@ -20,16 +20,13 @@ class Blog
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @Assert\NotNull(message="Name can't be set empty")
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\NotNull(message="Name can't be set empty", groups={"registration"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank
-     * @Assert\NotNull(message="Name can't be set empty")
-     * @Assert\Unique
      */
     private $slug;
 

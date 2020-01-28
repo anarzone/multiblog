@@ -22,13 +22,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email
+     * @Assert\Email(groups={"registration"})
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $email;
 
@@ -39,26 +40,24 @@ class User implements UserInterface
 
     /**
      * @Assert\Length(min="8", minMessage="Password should be at least 8 characters")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(groups={"registration"})
      */
     private $plainPassword;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Blog", inversedBy="users")
-     * @Assert\Valid
+     * @Assert\Valid(groups={"registration"})
      */
     private $blog;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
      */
+    private $posts;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $posts;
-
-
     private $roles;
 
     public function getBlog(): ?Blog
