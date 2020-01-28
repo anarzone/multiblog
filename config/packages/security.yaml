@@ -7,18 +7,26 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
+            anonymous: true
+            pattern: ^/
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+            form_login:
+                login_path: blog_login
+                check_path: blog_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: posts_index
             logout:
-                path: app_logout
+                path: blog_logout
+                target: posts_index
+
                 # where to redirect after logout
                 # target: app_any_route
 
