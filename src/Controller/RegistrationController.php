@@ -33,13 +33,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $blog_name = $request->request->get('blog');
+            dd($blog_name);
             $entityManager = $this->getDoctrine()->getManager();
 
             $blog = new Blog();
             $slugify = new Slugify();
-            $blog_name = $request->request->get('blog');
-            dd($blog_name);
+
 
 
             $entityManager->persist($user);

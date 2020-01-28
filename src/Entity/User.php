@@ -22,15 +22,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @Assert\NotNull(message="Name can't be set empty")
+     * @Assert\NotNull
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email(message="Email is not a valid email")
-     * @Assert\Unique(message="This email is already registered")
+     * @Assert\Email
      */
     private $email;
 
@@ -41,7 +39,7 @@ class User implements UserInterface
 
     /**
      * @Assert\Length(min="8", minMessage="Password should be at least 8 characters")
-     * @Assert\NotBlank(message="Password can't be blank")
+     * @Assert\NotBlank
      */
     private $plainPassword;
 
@@ -59,6 +57,7 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $posts;
+
 
     private $roles;
 
