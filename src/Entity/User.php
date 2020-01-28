@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -20,11 +22,15 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\NotNull(message="Name can't be set empty")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Email is not a valid email")
+     * @Assert\Unique(message="This email is already registered")
      */
     private $email;
 
@@ -34,7 +40,14 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Assert\Length(min="8", minMessage="Password should be at least 8 characters")
+     * @Assert\NotBlank(message="Password can't be blank")
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Blog", inversedBy="users")
+     * @Assert\Valid
      */
     private $blog;
 
@@ -113,6 +126,21 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
 
     public function getRoles(): array
     {
