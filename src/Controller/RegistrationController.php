@@ -22,7 +22,6 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
     {
 
-
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -41,18 +40,21 @@ class RegistrationController extends AbstractController
             $slugify = new Slugify();
             $blog->setName($blog_name['name']);
             $blog->setSlug($slugify->slugify($blog_name['name']));
+            $user->setBlog($blog);
+            $user->setRoles(['ROLE_ADMIN']);
             $entityManager->persist($blog);
             $entityManager->persist($user);
             $entityManager->flush();
 
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            return $this->redirectToRoute('blog_login');
+//            return $guardHandler->authenticateUserAndHandleSuccess(
+//                $user,
+//                $request,
+//                $authenticator,
+//                'main' // firewall name in security.yaml
+//            );
         }
 
         return $this->render('registration/register.html.twig', [
